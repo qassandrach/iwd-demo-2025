@@ -1,17 +1,23 @@
 /* public/style.css */
 body {
     font-family: 'Indie Flower';
-    margin: 20px;
     background-color: #f4f4f4;
+
+    /* Add these properties for centering */
+    display: flex;             /* Enable Flexbox */
+    flex-direction: column;    /* Stack children vertically */
+    align-items: center;       /* Center children horizontally */
+    min-height: 100vh;         /* Ensure body takes at least full viewport height */
+    padding: 20px;             /* Use padding instead of margin for spacing inside */
 }
 
 #messages {
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 20px 0; /* Add bottom margin to separate from form */
     background-color: #fff;
     border: 1px solid #ddd;
-    max-height: 70vh;
+    max-height: 60vh; /* Adjust max-height if needed */
     overflow-y: auto; /* Add scroll for many messages */
 }
 
@@ -24,8 +30,13 @@ body {
     border-bottom: none;
 }
 
+#messages,
 #message-form {
-    margin-top: 20px;
+    width: 100%; /* Take available width within the centered column */
+    max-width: 600px; /* Example: Set a maximum width */
+}
+
+#message-form {
     display: flex;
 }
 
