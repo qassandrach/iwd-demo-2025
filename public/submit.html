@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Message</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Submit a Message</h1>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Enter your message" autocomplete="off" required>
+        <button type="submit">Send</button>
+    </form>
+    <p id="status"></p>
+
+    <!-- Include Socket.IO client library -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Include your client-side script -->
+    <script src="submit.js"></script>
+</body>
+</html>

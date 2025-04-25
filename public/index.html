@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Display</title>
+
+    <!-- Add Google Fonts Link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Submit a Message</h1>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="How are you feeling today?" autocomplete="off" required>
+        <button type="submit">Send</button>
+    </form>
+    <p id="status"></p> <!-- Optional: For showing submission status -->
+
+    <hr> <!-- Optional: Add a visual separator -->
+
+    <h1>Messages</h1>
+    <ul id="messages">
+        <!-- Messages will be added here by JavaScript -->
+    </ul>
+
+    <!-- Include Socket.IO client library -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Include your combined client-side script -->
+    <script src="app.js"></script> <!-- Note: Changed script name -->
+</body>
+</html>

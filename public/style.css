@@ -1,0 +1,60 @@
+/* public/style.css */
+body {
+    font-family: 'Indie Flower';
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+#messages {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    max-height: 70vh;
+    overflow-y: auto; /* Add scroll for many messages */
+}
+
+#messages li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+#messages li:last-child {
+    border-bottom: none;
+}
+
+#message-form {
+    margin-top: 20px;
+    display: flex;
+}
+
+#message-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input, button {
+    font-family: inherit; /* Makes input and button use the body's font */
+}
+
+#status {
+    margin-top: 10px;
+    color: green;
+    font-style: italic;
+}
