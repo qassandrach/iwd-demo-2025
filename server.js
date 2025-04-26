@@ -50,6 +50,15 @@ app.get('/', (req, res) => {
 });
 
 
-server.listen(PORT, () => {
-    console.log(`Server listening on *:${PORT}`);
-});
+// server.listen(PORT, () => {
+//     console.log(`Server listening on *:${PORT}`);
+// });
+
+if (require.main === module) {
+    server.listen(PORT, () => {
+        console.log(`Server listening on *:${PORT}`);
+    });
+}
+
+// Export the server instance, messages array, and io instance for testing
+module.exports = { server, messages, io };

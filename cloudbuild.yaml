@@ -1,0 +1,70 @@
+# cloudbuild.yaml
+
+steps:
+  # 1. Install Dependencies
+  # Use the official npm builder to install dependencies reliably using package-lock.json
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['ci'] # 'ci' is generally faster and more reliable for CI environments than 'install'
+    id: 'Install Dependencies'
+
+  # 2. Run Tests
+  # Use the npm builder again to execute the test script defined in package.json
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'test'] # Assumes you have a "test": "..." script in package.json
+    id: 'Run Tests'
+
+  # 3. Build Docker Image
+  # Use the standard Docker builder to build the image using your Dockerfile
+  # Tag it with the Artifact Registry path and the short commit SHA for versioning
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-southeast1-docker.pkg.dev/iwd-demo-458000/my-app-repo/sample-app:latest' # Adjust region/repo name if needed
+      - '.' # Build context is the current directory
+    id: 'Build Image'
+    waitFor: ['Run Tests'] # Only build if tests pass
+
+  # 4. Push Docker Image
+  # Push the built image to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-southeast1-docker.pkg.dev/iwd-demo-458000/my-app-repo/sample-app:latest'] # Adjust region/repo name if needed
+    id: 'Push Image'
+    waitFor: ['Build Image'] # Only push if build succeeds
+
+  # 5. Deploy to Cloud Run
+  # Use the gcloud builder to deploy the new image version to your Cloud Run service
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk' # Using the full cloud-sdk image for gcloud commands
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'sample-app-service'                                                               # Your Cloud Run service name
+      - '--image=asia-southeast1-docker.pkg.dev/iwd-demo-458000/my-app-repo/sample-app:latest' # Image to deploy (adjust region/repo)
+      - '--region'
+      - 'asia-southeast1'                                                                      # Region for the service (adjust if needed)
+      - '--platform'
+      - 'managed'                                                                          # Fully managed platform
+      - '--port'
+      - '8080'                                                                             # Port your container listens on
+      - '--allow-unauthenticated'                                                          # Allow public access (remove if using IAM)
+      - '--session-affinity'                                                               # *** IMPORTANT for Socket.IO ***
+      # Optional: Add other flags like --cpu, --memory, --min-instances, --max-instances as needed
+      # - '--memory=512Mi'
+      # - '--cpu=1'
+    id: 'Deploy Service'
+    waitFor: ['Push Image'] # Only deploy if push succeeds
+
+# List the images that were built by this pipeline.
+images:
+  - 'asia-southeast1-docker.pkg.dev/iwd-demo-458000/my-app-repo/sample-app:latest' # Adjust region/repo name if needed
+
+# Optional: Define timeout for the build
+# timeout: 1200s
+
+# Optional: Specify substitutions (PROJECT_ID and SHORT_SHA are provided automatically)
+# substitutions:
+#   _SOME_VARIABLE: 'some-value'
+
+options:
+  logging: CLOUD_LOGGING_ONLY # Store logs in Cloud Logging

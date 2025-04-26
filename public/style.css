@@ -14,7 +14,7 @@ body {
 #messages {
     list-style-type: none;
     padding: 0;
-    margin: 0 0 20px 0; /* Add bottom margin to separate from form */
+    margin: 0;
     background-color: #fff;
     border: 1px solid #ddd;
     max-height: 60vh; /* Adjust max-height if needed */
@@ -34,6 +34,7 @@ body {
 #message-form {
     width: 100%; /* Take available width within the centered column */
     max-width: 600px; /* Example: Set a maximum width */
+    
 }
 
 #message-form {
